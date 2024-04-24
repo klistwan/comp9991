@@ -3,9 +3,9 @@ from typing import Set, List, Dict, NamedTuple
 
 
 class GameState(NamedTuple):
-    cop_pos: int
-    robber_pos: int
-    damaged: Set[int]
+    cop_position: int
+    robber_position: int
+    damaged_vertices: Set[int]
 
 
 def get_adjacent_vertices(graph: nx.Graph, vertex: int) -> List[int]:
@@ -13,26 +13,26 @@ def get_adjacent_vertices(graph: nx.Graph, vertex: int) -> List[int]:
 
 
 def minimax(graph: nx.Graph, state: GameState, is_cop_turn: bool, memo: Dict[GameState, int]) -> int:
-    current_cop_pos, current_robber_pos, damaged_set = state.cop_pos, state.robber_pos, state.damaged
+    """Calculates damage number given a graph and initial game state."""
+    if state.cop_position == state.robber_position or len(state.damaged_vertices) == graph.order():
+        return len(state.damaged_vertices)
 
-    if current_cop_pos == current_robber_pos or len(damaged_set) == graph.order():
-        return len(damaged_set)
-
-    memo_key = GameState(current_cop_pos, current_robber_pos, frozenset(damaged_set))
+    memo_key = GameState(state.cop_position, state.robber_position, frozenset(state.damaged_vertices))
     if memo_key in memo:
         return memo[memo_key]
 
     if is_cop_turn:
-        next_positions = get_adjacent_vertices(graph, current_cop_pos) + [current_cop_pos]
-        if current_robber_pos in next_positions:
-            return len(damaged_set)
-        next_states = [GameState(pos, current_robber_pos, damaged_set) for pos in next_positions]
+        next_positions = get_adjacent_vertices(graph, state.cop_position) + [state.cop_position]
+        if state.robber_position in next_positions:
+            return len(state.damaged_vertices)
+        next_states = [GameState(pos, state.robber_position, state.damaged_vertices) for pos in next_positions]
         results = [minimax(graph, state, False, memo) for state in next_states]
         best_result = min(results)
     else:
-        next_positions = get_adjacent_vertices(graph, current_robber_pos) + [current_robber_pos]
+        next_positions = get_adjacent_vertices(graph, state.robber_position) + [state.robber_position]
         next_states = [
-            GameState(current_cop_pos, pos, damaged_set.union({current_robber_pos})) for pos in next_positions
+            GameState(state.cop_position, pos, state.damaged_vertices.union({state.robber_position}))
+            for pos in next_positions
         ]
         results = [minimax(graph, state, True, memo) for state in next_states]
         best_result = max(results)
