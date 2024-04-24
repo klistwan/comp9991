@@ -15,7 +15,7 @@ def get_adjacent_vertices(graph: nx.Graph, vertex: int) -> List[int]:
 def minimax(graph: nx.Graph, state: GameState, is_cop_turn: bool, memo: Dict[GameState, int]) -> int:
     current_cop_pos, current_robber_pos, damaged_set = state.cop_pos, state.robber_pos, state.damaged
 
-    if current_cop_pos == current_robber_pos or len(damaged_set) == len(graph.nodes):
+    if current_cop_pos == current_robber_pos or len(damaged_set) == graph.order():
         return len(damaged_set)
 
     memo_key = GameState(current_cop_pos, current_robber_pos, frozenset(damaged_set))
@@ -24,13 +24,16 @@ def minimax(graph: nx.Graph, state: GameState, is_cop_turn: bool, memo: Dict[Gam
 
     if is_cop_turn:
         next_positions = get_adjacent_vertices(graph, current_cop_pos) + [current_cop_pos]
-        results = [
-            minimax(graph, GameState(pos, current_robber_pos, damaged_set), False, memo) for pos in next_positions
-        ]
+        if current_robber_pos in next_positions:
+            return len(damaged_set)
+        next_states = [GameState(pos, current_robber_pos, damaged_set) for pos in next_positions]
+        results = [minimax(graph, state, False, memo) for state in next_states]
         best_result = min(results)
     else:
-        next_positions = get_adjacent_vertices(graph, current_robber_pos)
-        next_states = [GameState(current_cop_pos, pos, damaged_set.union({pos})) for pos in next_positions]
+        next_positions = get_adjacent_vertices(graph, current_robber_pos) + [current_robber_pos]
+        next_states = [
+            GameState(current_cop_pos, pos, damaged_set.union({current_robber_pos})) for pos in next_positions
+        ]
         results = [minimax(graph, state, True, memo) for state in next_states]
         best_result = max(results)
 
