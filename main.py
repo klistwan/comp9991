@@ -2,7 +2,6 @@ import networkx as nx
 from typing import Set, List, Dict, NamedTuple
 
 
-# Define a NamedTuple for GameState with type annotations
 class GameState(NamedTuple):
     cop_pos: int
     robber_pos: int
@@ -10,9 +9,7 @@ class GameState(NamedTuple):
 
 
 def get_adjacent_vertices(graph: nx.Graph, vertex: int) -> List[int]:
-    """Return a list of vertices adjacent to the specified vertex in the graph.
-    Includes the current vertex to allow passing the turn."""
-    return list(graph.neighbors(vertex)) + [vertex]
+    return list(graph.neighbors(vertex))
 
 
 def minimax(graph: nx.Graph, state: GameState, is_cop_turn: bool, memo: Dict[GameState, int]) -> int:
@@ -26,7 +23,7 @@ def minimax(graph: nx.Graph, state: GameState, is_cop_turn: bool, memo: Dict[Gam
         return memo[memo_key]
 
     if is_cop_turn:
-        next_positions = get_adjacent_vertices(graph, current_cop_pos)
+        next_positions = get_adjacent_vertices(graph, current_cop_pos) + [current_cop_pos]
         results = [
             minimax(graph, GameState(pos, current_robber_pos, damaged_set), False, memo) for pos in next_positions
         ]
