@@ -1,6 +1,6 @@
 # Minimax in Cops and Robbers: Damage Number
 
-![Damage Number](images/damage-numbers.png)
+![image](images/damage-number.png )
 
 ## Overview
 The Cops and Robbers game is a two-player, zero-sum game played on a graph. In the original version, the cop moves along edges of the graph to try to capture the robber while the robber tries to evade the cop indefinitely. In the damage number variant, when the robber ends their turn, the vertex they are on becomes damaged. In this variant, the objective of the cop is to minimize the number of damaged vertices, while the robber aims to maximize it.
