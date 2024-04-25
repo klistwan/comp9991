@@ -20,11 +20,17 @@ test_cases = [
         4,
         2,
     ),
+    # 3-cycle.
+    ([(0, 1), (1, 2), (2, 0)], 0, 1, 0),
+    # 4-cycle where cop and robber start adjacent to each other.
+    ([(0, 1), (1, 2), (2, 3), (3, 0)], 0, 3, 0),
+    # 4-cycle where cop and robber start opposite to each other.
+    ([(0, 1), (1, 2), (2, 3), (3, 0)], 0, 2, 1),
 ]
 
 
 @pytest.mark.parametrize("edges, cop_position, robber_position, expected_damage", test_cases)
-def test_path_graphs(edges, cop_position, robber_position, expected_damage):
+def test_minimax(edges, cop_position, robber_position, expected_damage):
     graph = nx.Graph()
     graph.add_edges_from(edges)
     initial_state = GameState(cop_position, robber_position, frozenset())
