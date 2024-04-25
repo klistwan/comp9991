@@ -1,6 +1,7 @@
-import pytest
 import networkx as nx
-from main import minimax, GameState
+import pytest
+
+from main import GameState, minimax
 
 # Test cases defined as tuples of graph edges, cop position, robber position, and expected damage number.
 test_cases = [

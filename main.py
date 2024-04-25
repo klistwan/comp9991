@@ -1,19 +1,20 @@
+from typing import NamedTuple
+
 import networkx as nx
-from typing import Set, List, Dict, NamedTuple
 
 
 class GameState(NamedTuple):
     cop_position: int
     robber_position: int
-    damaged_vertices: Set[int]
+    damaged_vertices: set[int]
 
 
-def get_adjacent_vertices(graph: nx.Graph, vertex: int) -> List[int]:
+def get_adjacent_vertices(graph: nx.Graph, vertex: int) -> list[int]:
     return list(graph.neighbors(vertex))
 
 
-def minimax(graph: nx.Graph, state: GameState, is_cop_turn: bool, memo: Dict[GameState, int]) -> int:
-    """Calculates damage number given a graph and initial game state."""
+def minimax(graph: nx.Graph, state: GameState, is_cop_turn: bool, memo: dict[GameState, int]) -> int:
+    """Calculate damage number given a graph and initial game state."""
     if state.cop_position == state.robber_position or len(state.damaged_vertices) == graph.order():
         return len(state.damaged_vertices)
 
@@ -43,6 +44,6 @@ def minimax(graph: nx.Graph, state: GameState, is_cop_turn: bool, memo: Dict[Gam
 
 def game_decision(graph: nx.Graph, initial_cop_position: int, initial_robber_position: int, k: int) -> bool:
     initial_state = GameState(initial_cop_position, initial_robber_position, frozenset())
-    memo: Dict[GameState, int] = {}
+    memo: dict[GameState, int] = {}
     damage_number = minimax(graph, initial_state, True, memo)
     return damage_number >= k
