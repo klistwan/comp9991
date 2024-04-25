@@ -25,9 +25,8 @@ def test_path_graphs(edges, cop_position, robber_position, expected_damage):
     graph.add_edges_from(edges)
     initial_state = GameState(cop_position, robber_position, frozenset())
     is_cop_turn = True
-    memo = {}
     visited = set()
 
-    result = minimax(graph, initial_state, is_cop_turn, memo, visited)
+    result = minimax(graph, initial_state, is_cop_turn, visited)
 
     assert result == expected_damage, f"Expected damage number to be {expected_damage}, got {result}"
