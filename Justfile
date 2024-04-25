@@ -2,10 +2,10 @@ activate:
     source .venv/bin/activate
 
 format:
-    ruff format .
+    ruff format main.py
 
 lint:
-    ruff .
+    ruff main.py
 
 run:
     . .venv/bin/activate && python main.py
