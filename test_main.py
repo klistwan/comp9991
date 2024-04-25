@@ -7,8 +7,12 @@ from main import GameState, minimax
 test_cases = [
     # Path graph with 3 vertices where cop and robber start on opposite ends.
     ([(0, 1), (1, 2)], 0, 2, 1),
+    # Path graph with 3 vertices where cop and robber start adjacent to each other.
+    ([(0, 1), (1, 2)], 0, 1, 0),
     # Path graph with 4 vertices where cop and robber start on opposite ends.
     ([(0, 1), (1, 2), (2, 3)], 0, 3, 1),
+    # Path graph with 4 vertices where robber starts distance two from cop.
+    ([(0, 1), (1, 2), (2, 3)], 0, 2, 2),
     # Path graph with 5 vertices where cop and robber start on opposite ends.
     (
         [(0, 1), (1, 2), (2, 3), (3, 4)],
