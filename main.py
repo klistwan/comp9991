@@ -9,10 +9,6 @@ class GameState(NamedTuple):
     damaged_vertices: set[int]
 
 
-def get_adjacent_vertices(graph: nx.Graph, vertex: int) -> list[int]:
-    return list(graph.neighbors(vertex))
-
-
 def minimax(graph: nx.Graph, state: GameState, is_cop_turn: bool, memo: dict[GameState, int]) -> int:
     """Calculate damage number given a graph and initial game state."""
     if state.cop_position == state.robber_position or len(state.damaged_vertices) == graph.order():
