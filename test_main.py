@@ -29,10 +29,16 @@ test_cases = [
     ([(0, 1), (1, 2), (2, 3), (3, 0)], 0, 3, 0),
     # 4-cycle where cop and robber start opposite to each other.
     ([(0, 1), (1, 2), (2, 3), (3, 0)], 0, 2, 1),
-    # 5-cycle where robber starts adjacent from cop.
+    # 5-cycle where robber starts distance one from cop.
     ([(0, 1), (1, 2), (2, 3), (3, 4), (4, 0)], 0, 1, 0),
     # 5-cycle where robber starts distance two from cop.
     ([(0, 1), (1, 2), (2, 3), (3, 4), (4, 0)], 0, 2, 2),
+    # 6-cycle where robber starts distance one from cop.
+    ([(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 0)], 0, 1, 0),
+    # 6-cycle where robber starts distance two from cop.
+    ([(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 0)], 0, 2, 2),
+    # 6-cycle where robber starts distance three from cop.
+    ([(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 0)], 0, 3, 2),
 ]
 
 
