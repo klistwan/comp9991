@@ -43,6 +43,8 @@ test_cases = [
     ([(0, 1), (0, 2), (0, 3), (0, 4)], 0, 1, 0),
     # Star graph S_5 where neither player starts on the central vertex.
     ([(0, 1), (0, 2), (0, 3), (0, 4)], 1, 2, 1),
+    # Complete graph K_4.
+    ([(0, 1), (0, 2), (0, 3), (1, 2), (1, 3), (2, 3)], 0, 1, 0),
 ]
 
 
