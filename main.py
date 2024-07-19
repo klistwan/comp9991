@@ -10,12 +10,12 @@ class GameState(NamedTuple):
     is_cop_turn: bool
 
 
-def minimax(graph: nx.Graph, state: GameState, visited: set[GameState]) -> int:
+def minimax(graph: nx.Graph, state: GameState, visited: set[GameState], upper_bound: int) -> int:
     """Calculate damage number given a graph and initial game state."""
     if state.cop_position == state.robber_position:
         return len(state.damaged_vertices)
-    if len(state.damaged_vertices) == graph.order():
-        return len(state.damaged_vertices)
+    if len(state.damaged_vertices) == upper_bound:
+        return upper_bound
     if state in visited:
         return len(state.damaged_vertices)
     visited.add(state)
@@ -32,7 +32,7 @@ def minimax(graph: nx.Graph, state: GameState, visited: set[GameState]) -> int:
             )
             for pos in graph.neighbors(state.cop_position)
         ]
-        results = [minimax(graph, state, visited) for state in next_states if state not in visited]
+        results = [minimax(graph, state, visited, upper_bound) for state in next_states if state not in visited]
         if results == []:
             return len(state.damaged_vertices)
         best_result = min(results)
@@ -49,7 +49,7 @@ def minimax(graph: nx.Graph, state: GameState, visited: set[GameState]) -> int:
         if next_states == []:
             best_result = len(state.damaged_vertices.union({state.robber_position}))
         else:
-            results = [minimax(graph, state, visited) for state in next_states]
+            results = [minimax(graph, state, visited, upper_bound) for state in next_states]
             best_result = max(results)
 
     visited.remove(state)

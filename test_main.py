@@ -50,7 +50,8 @@ def test_minimax(edges, cop_position, robber_position, expected_damage):
         is_cop_turn=is_cop_turn,
     )
     visited = set()
-
-    result = minimax(graph, initial_state, visited)
-
-    assert result == expected_damage, f"Expected damage number to be {expected_damage}, got {result}"
+    upper_bound = graph.number_of_nodes() - (graph.degree(cop_position) - 1)  # Since self-loops are counted twice.
+    result = minimax(graph, initial_state, visited, upper_bound)
+    assert (
+        result == expected_damage
+    ), f"Expected dmg(G) = {expected_damage}, with upper bound {upper_bound}, got {result}"
