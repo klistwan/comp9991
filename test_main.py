@@ -1,7 +1,7 @@
 import networkx as nx
 import pytest
 
-from main import GameState, minimax
+from main import GameState, CopsAndRobbersGame
 
 # Test cases defined as tuples of graph edges, cop position, robber position, and expected damage number.
 test_cases = [
@@ -48,16 +48,14 @@ def test_minimax(edges, cop_position, robber_position, expected_damage):
     graph.add_edges_from(edges)
     for node in graph.nodes:
         graph.add_edge(node, node)
-    is_cop_turn = True
+
     initial_state = GameState(
         cop_position=cop_position,
         robber_position=robber_position,
         damaged_vertices=frozenset(),
-        is_cop_turn=is_cop_turn,
+        is_cop_turn=True,
     )
     visited = set()
-    upper_bound = graph.number_of_nodes() - (graph.degree(cop_position) - 1)  # Since self-loops are counted twice.
-    result = minimax(graph, initial_state, visited, upper_bound)
-    assert (
-        result == expected_damage
-    ), f"Expected dmg(G) = {expected_damage}, with upper bound {upper_bound}, got {result}"
+    game = CopsAndRobbersGame(graph, cop_position)
+    result = game.minimax(initial_state, visited)
+    assert result == expected_damage, f"Expected dmg(G) = {expected_damage} but got {result}"

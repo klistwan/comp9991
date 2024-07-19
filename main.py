@@ -10,47 +10,53 @@ class GameState(NamedTuple):
     is_cop_turn: bool
 
 
-def minimax(graph: nx.Graph, state: GameState, visited: set[GameState], upper_bound: int) -> int:
-    """Calculate damage number given a graph and initial game state."""
-    if state.cop_position == state.robber_position:
-        return len(state.damaged_vertices)
-    if len(state.damaged_vertices) == upper_bound:
-        return upper_bound
-    if state in visited:
-        return len(state.damaged_vertices)
-    visited.add(state)
+class CopsAndRobbersGame:
+    def __init__(self, graph: nx.Graph, cop_position: int):
+        self.graph = graph
+        self.upper_bound = graph.number_of_nodes() - (
+            graph.degree(cop_position) - 1
+        )  # Since self-loops are counted twice.
 
-    if state.is_cop_turn:
-        if graph.has_edge(state.cop_position, state.robber_position):
+    def minimax(self, state: GameState, visited: set[GameState]) -> int:
+        if state.cop_position == state.robber_position:
             return len(state.damaged_vertices)
-        next_states = [
-            GameState(
-                pos,
-                state.robber_position,
-                state.damaged_vertices,
-                False,
-            )
-            for pos in graph.neighbors(state.cop_position)
-        ]
-        results = [minimax(graph, state, visited, upper_bound) for state in next_states if state not in visited]
-        if results == []:
+        if len(state.damaged_vertices) == self.upper_bound:
+            return self.upper_bound
+        if state in visited:
             return len(state.damaged_vertices)
-        best_result = min(results)
-    else:
-        next_states = []
-        for next_pos in graph.neighbors(state.robber_position):
-            # Avoid vertices adjacent to the cop.
-            if graph.has_edge(state.cop_position, next_pos):
-                continue
-            next_states.append(
-                GameState(state.cop_position, next_pos, state.damaged_vertices.union({state.robber_position}), True)
-            )
-        # If impossible to avoid capture, just damage current vertex.
-        if next_states == []:
-            best_result = len(state.damaged_vertices.union({state.robber_position}))
+        visited.add(state)
+
+        if state.is_cop_turn:
+            if self.graph.has_edge(state.cop_position, state.robber_position):
+                return len(state.damaged_vertices)
+            next_states = [
+                GameState(
+                    pos,
+                    state.robber_position,
+                    state.damaged_vertices,
+                    False,
+                )
+                for pos in self.graph.neighbors(state.cop_position)
+            ]
+            results = [self.minimax(state, visited) for state in next_states if state not in visited]
+            if results == []:
+                return len(state.damaged_vertices)
+            best_result = min(results)
         else:
-            results = [minimax(graph, state, visited, upper_bound) for state in next_states]
-            best_result = max(results)
+            next_states = []
+            for next_pos in self.graph.neighbors(state.robber_position):
+                # Avoid vertices adjacent to the cop.
+                if self.graph.has_edge(state.cop_position, next_pos):
+                    continue
+                next_states.append(
+                    GameState(state.cop_position, next_pos, state.damaged_vertices.union({state.robber_position}), True)
+                )
+            # If impossible to avoid capture, just damage current vertex.
+            if next_states == []:
+                best_result = len(state.damaged_vertices.union({state.robber_position}))
+            else:
+                results = [self.minimax(state, visited) for state in next_states]
+                best_result = max(results)
 
-    visited.remove(state)
-    return best_result
+        visited.remove(state)
+        return best_result
