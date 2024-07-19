@@ -49,6 +49,8 @@ test_cases = [
     ([(0, 1), (0, 2), (1, 3), (1, 4), (2, 5), (2, 6)], 0, 3, 1),
     # Balanced binary tree with 7 nodes (cop and robber at leaf vertices within the same branch).
     ([(0, 1), (0, 2), (1, 3), (1, 4), (2, 5), (2, 6)], 3, 4, 1),
+    # Balanced binary tree with 7 nodes (cop at leaf, robber at root).
+    ([(0, 1), (0, 2), (1, 3), (1, 4), (2, 5), (2, 6)], 3, 0, 3),
 ]
 
 
