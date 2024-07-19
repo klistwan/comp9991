@@ -4,7 +4,7 @@ activate:
     source .venv/bin/activate
 
 format:
-    ruff format main.py
+    ruff format .
 
 lint:
     ruff main.py
