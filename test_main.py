@@ -25,6 +25,8 @@ test_cases = [
     ([(0, 1), (1, 2), (2, 3), (3, 4)], 2, 4, 1),
     # Path graph with 6 vertices.
     ([(0, 1), (1, 2), (2, 3), (3, 4), (4, 5)], 2, 4, 2),
+    # Path graph with 6 vertices where cop starts on a leaf and robber can damage vertices 2, 3, 4, and 5.
+    ([(0, 1), (1, 2), (2, 3), (3, 4), (4, 5)], 0, 2, 4),
     # 3-cycle.
     ([(0, 1), (1, 2), (2, 0)], 0, 1, 0),
 ]
