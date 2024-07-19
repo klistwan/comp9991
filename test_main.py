@@ -45,6 +45,10 @@ test_cases = [
     ([(0, 1), (0, 2), (0, 3), (0, 4)], 1, 2, 1),
     # Complete graph K_4.
     ([(0, 1), (0, 2), (0, 3), (1, 2), (1, 3), (2, 3)], 0, 1, 0),
+    # Balanced binary tree with 7 nodes (cop at root, robber at leaf).
+    ([(0, 1), (0, 2), (1, 3), (1, 4), (2, 5), (2, 6)], 0, 3, 1),
+    # Balanced binary tree with 7 nodes (cop and robber at leaf vertices within the same branch).
+    ([(0, 1), (0, 2), (1, 3), (1, 4), (2, 5), (2, 6)], 3, 4, 1),
 ]
 
 
