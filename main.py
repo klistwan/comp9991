@@ -37,26 +37,20 @@ def minimax(graph: nx.Graph, state: GameState, visited: set[GameState]) -> int:
             return len(state.damaged_vertices)
         best_result = min(results)
     else:
-        next_positions = list(graph.neighbors(state.robber_position))
-        guarded_positions = list(graph.neighbors(state.cop_position))
-        # Eliminate positions that would be adjacent to the cop.
-        next_states = [
-            GameState(state.cop_position, pos, state.damaged_vertices.union({state.robber_position}), True)
-            for pos in next_positions
-            if pos not in guarded_positions
-        ]
-        # If robber has no adjacent vertices that aren't guarded, he should pass his turn.
+        next_states = []
+        for next_pos in graph.neighbors(state.robber_position):
+            # Avoid vertices adjacent to the cop.
+            if graph.has_edge(state.cop_position, next_pos):
+                continue
+            next_states.append(
+                GameState(state.cop_position, next_pos, state.damaged_vertices.union({state.robber_position}), True)
+            )
+        # If impossible to avoid capture, just damage current vertex.
         if next_states == []:
-            next_states = [
-                GameState(
-                    state.cop_position,
-                    state.robber_position,
-                    state.damaged_vertices.union({state.robber_position}),
-                    True,
-                )
-            ]
-        results = [minimax(graph, state, visited) for state in next_states]
-        best_result = max(results)
+            best_result = len(state.damaged_vertices.union({state.robber_position}))
+        else:
+            results = [minimax(graph, state, visited) for state in next_states]
+            best_result = max(results)
 
     visited.remove(state)
     return best_result
