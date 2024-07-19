@@ -11,11 +11,9 @@ class GameState(NamedTuple):
 
 
 class CopsAndRobbersGame:
-    def __init__(self, graph: nx.Graph, cop_position: int):
+    def __init__(self, graph: nx.Graph, cop_position: int) -> None:
         self.graph = graph
-        self.upper_bound = graph.number_of_nodes() - (
-            graph.degree(cop_position) - 1
-        )  # Since self-loops are counted twice.
+        self.upper_bound = graph.number_of_nodes() - (graph.degree(cop_position) - 1)
 
     def minimax(self, state: GameState, visited: set[GameState]) -> int:
         if state.cop_position == state.robber_position:
@@ -34,7 +32,7 @@ class CopsAndRobbersGame:
                     pos,
                     state.robber_position,
                     state.damaged_vertices,
-                    False,
+                    is_cop_turn=False,
                 )
                 for pos in self.graph.neighbors(state.cop_position)
             ]
@@ -49,7 +47,12 @@ class CopsAndRobbersGame:
                 if self.graph.has_edge(state.cop_position, next_pos):
                     continue
                 next_states.append(
-                    GameState(state.cop_position, next_pos, state.damaged_vertices.union({state.robber_position}), True)
+                    GameState(
+                        state.cop_position,
+                        next_pos,
+                        state.damaged_vertices.union({state.robber_position}),
+                        is_cop_turn=True,
+                    )
                 )
             # If impossible to avoid capture, just damage current vertex.
             if next_states == []:

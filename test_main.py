@@ -1,7 +1,7 @@
 import networkx as nx
 import pytest
 
-from main import GameState, CopsAndRobbersGame
+from main import CopsAndRobbersGame, GameState
 
 # Test cases defined as tuples of graph edges, cop position, robber position, and expected damage number.
 test_cases = [
