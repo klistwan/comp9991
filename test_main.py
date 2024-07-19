@@ -20,6 +20,8 @@ test_cases = [
     # Path graph with 5 vertices where cop and robber start on opposite ends.
     ([(0, 1), (1, 2), (2, 3), (3, 4)], 0, 4, 2),
     # Path graph with 5 vertices where robber starts distance two from cop.
+    ([(0, 1), (1, 2), (2, 3), (3, 4)], 0, 2, 3),
+    # Path graph with 5 vertices where robber starts distance two from cop.
     ([(0, 1), (1, 2), (2, 3), (3, 4)], 2, 4, 1),
     # Path graph with 6 vertices.
     ([(0, 1), (1, 2), (2, 3), (3, 4), (4, 5)], 2, 4, 2),
