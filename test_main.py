@@ -29,6 +29,10 @@ test_cases = [
     ([(0, 1), (1, 2), (2, 3), (3, 4), (4, 5)], 0, 2, 4),
     # 3-cycle.
     ([(0, 1), (1, 2), (2, 0)], 0, 1, 0),
+    # 4-cycle where cop and robber start adjacent.
+    ([(0, 1), (1, 2), (2, 3), (3,0)], 0, 1, 0),
+    # 4-cycle where cop and robber start opposite.
+    ([(0, 1), (1, 2), (2, 3), (3,0)], 1, 3, 1),
 ]
 
 
