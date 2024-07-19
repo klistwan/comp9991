@@ -7,9 +7,10 @@ class GameState(NamedTuple):
     cop_position: int
     robber_position: int
     damaged_vertices: set[int]
+    is_cop_turn: bool
 
 
-def minimax(graph: nx.Graph, state: GameState, is_cop_turn: bool, visited: set[GameState]) -> int:
+def minimax(graph: nx.Graph, state: GameState, visited: set[GameState], level=0) -> int:
     """Calculate damage number given a graph and initial game state."""
     if state.cop_position == state.robber_position:
         return len(state.damaged_vertices)
@@ -19,20 +20,41 @@ def minimax(graph: nx.Graph, state: GameState, is_cop_turn: bool, visited: set[G
         return len(state.damaged_vertices)
     visited.add(state)
 
-    if is_cop_turn:
+    if state.is_cop_turn:
         next_positions = list(graph.neighbors(state.cop_position)) + [state.cop_position]
-        next_states = [GameState(pos, state.robber_position, state.damaged_vertices) for pos in next_positions]
-        results = [minimax(graph, state, False, visited) for state in next_states if state not in visited]
+        next_states = [
+            GameState(
+                pos,
+                state.robber_position,
+                state.damaged_vertices,
+                False,
+            )
+            for pos in next_positions
+        ]
+        results = [minimax(graph, state, visited, level + 1) for state in next_states if state not in visited]
         if results == []:
             return len(state.damaged_vertices)
         best_result = min(results)
     else:
         next_positions = list(graph.neighbors(state.robber_position)) + [state.robber_position]
+        guarded_positions = list(graph.neighbors(state.cop_position)) + [state.cop_position]
+        # Eliminate positions that would be adjacent to the cop.
         next_states = [
-            GameState(state.cop_position, pos, state.damaged_vertices.union({state.robber_position}))
+            GameState(state.cop_position, pos, state.damaged_vertices.union({state.robber_position}), True)
             for pos in next_positions
+            if pos not in guarded_positions
         ]
-        results = [minimax(graph, state, True, visited) for state in next_states]
+        # If robber has no adjacent vertices that aren't guarded, he should pass his turn.
+        if next_states == []:
+            next_states = [
+                GameState(
+                    state.cop_position,
+                    state.robber_position,
+                    state.damaged_vertices.union({state.robber_position}),
+                    True,
+                )
+            ]
+        results = [minimax(graph, state, visited, level + 1) for state in next_states]
         best_result = max(results)
 
     visited.remove(state)

@@ -30,9 +30,9 @@ test_cases = [
     # 3-cycle.
     ([(0, 1), (1, 2), (2, 0)], 0, 1, 0),
     # 4-cycle where cop and robber start adjacent.
-    ([(0, 1), (1, 2), (2, 3), (3,0)], 0, 1, 0),
+    ([(0, 1), (1, 2), (2, 3), (3, 0)], 0, 1, 0),
     # 4-cycle where cop and robber start opposite.
-    ([(0, 1), (1, 2), (2, 3), (3,0)], 1, 3, 1),
+    ([(0, 1), (1, 2), (2, 3), (3, 0)], 1, 3, 1),
 ]
 
 
@@ -40,10 +40,15 @@ test_cases = [
 def test_minimax(edges, cop_position, robber_position, expected_damage):
     graph = nx.Graph()
     graph.add_edges_from(edges)
-    initial_state = GameState(cop_position, robber_position, frozenset())
     is_cop_turn = True
+    initial_state = GameState(
+        cop_position=cop_position,
+        robber_position=robber_position,
+        damaged_vertices=frozenset(),
+        is_cop_turn=is_cop_turn,
+    )
     visited = set()
 
-    result = minimax(graph, initial_state, is_cop_turn, visited)
+    result = minimax(graph, initial_state, visited)
 
     assert result == expected_damage, f"Expected damage number to be {expected_damage}, got {result}"
