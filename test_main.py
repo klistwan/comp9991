@@ -40,6 +40,8 @@ test_cases = [
 def test_minimax(edges, cop_position, robber_position, expected_damage):
     graph = nx.Graph()
     graph.add_edges_from(edges)
+    for node in graph.nodes:
+        graph.add_edge(node, node)
     is_cop_turn = True
     initial_state = GameState(
         cop_position=cop_position,

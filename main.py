@@ -10,7 +10,7 @@ class GameState(NamedTuple):
     is_cop_turn: bool
 
 
-def minimax(graph: nx.Graph, state: GameState, visited: set[GameState], level=0) -> int:
+def minimax(graph: nx.Graph, state: GameState, visited: set[GameState]) -> int:
     """Calculate damage number given a graph and initial game state."""
     if state.cop_position == state.robber_position:
         return len(state.damaged_vertices)
@@ -21,7 +21,7 @@ def minimax(graph: nx.Graph, state: GameState, visited: set[GameState], level=0)
     visited.add(state)
 
     if state.is_cop_turn:
-        next_positions = list(graph.neighbors(state.cop_position)) + [state.cop_position]
+        next_positions = list(graph.neighbors(state.cop_position))
         next_states = [
             GameState(
                 pos,
@@ -31,13 +31,13 @@ def minimax(graph: nx.Graph, state: GameState, visited: set[GameState], level=0)
             )
             for pos in next_positions
         ]
-        results = [minimax(graph, state, visited, level + 1) for state in next_states if state not in visited]
+        results = [minimax(graph, state, visited) for state in next_states if state not in visited]
         if results == []:
             return len(state.damaged_vertices)
         best_result = min(results)
     else:
-        next_positions = list(graph.neighbors(state.robber_position)) + [state.robber_position]
-        guarded_positions = list(graph.neighbors(state.cop_position)) + [state.cop_position]
+        next_positions = list(graph.neighbors(state.robber_position))
+        guarded_positions = list(graph.neighbors(state.cop_position))
         # Eliminate positions that would be adjacent to the cop.
         next_states = [
             GameState(state.cop_position, pos, state.damaged_vertices.union({state.robber_position}), True)
@@ -54,7 +54,7 @@ def minimax(graph: nx.Graph, state: GameState, visited: set[GameState], level=0)
                     True,
                 )
             ]
-        results = [minimax(graph, state, visited, level + 1) for state in next_states]
+        results = [minimax(graph, state, visited) for state in next_states]
         best_result = max(results)
 
     visited.remove(state)
