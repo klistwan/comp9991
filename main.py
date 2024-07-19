@@ -21,6 +21,8 @@ def minimax(graph: nx.Graph, state: GameState, visited: set[GameState]) -> int:
     visited.add(state)
 
     if state.is_cop_turn:
+        if graph.has_edge(state.cop_position, state.robber_position):
+            return len(state.damaged_vertices)
         next_positions = list(graph.neighbors(state.cop_position))
         next_states = [
             GameState(
