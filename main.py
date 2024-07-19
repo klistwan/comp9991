@@ -35,10 +35,5 @@ def minimax(graph: nx.Graph, state: GameState, is_cop_turn: bool, visited: set[G
         results = [minimax(graph, state, True, visited) for state in next_states]
         best_result = max(results)
 
+    visited.remove(state)
     return best_result
-
-
-def game_decision(graph: nx.Graph, initial_cop_position: int, initial_robber_position: int, k: int) -> bool:
-    initial_state = GameState(initial_cop_position, initial_robber_position, frozenset())
-    damage_number = minimax(graph, initial_state, True, set())
-    return damage_number >= k
