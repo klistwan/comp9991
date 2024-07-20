@@ -71,6 +71,8 @@ test_cases = [
     ([(0, 1), (0, 2), (1, 2), (3, 4), (3, 5), (4, 5), (2, 3)], 0, 5, 2),
     # A (4,3)-lollipop graph where the cop starts on the cut vertex of the clique.
     ([(0, 1), (0, 2), (0, 3), (1, 2), (1, 3), (2, 3), (3, 4), (4, 5), (5, 6)], 3, 5, 2),
+    # 8-cycle where cop and robber start distance 2 away.
+    ([(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 0)], 0, 2, 3),
 ]
 
 
