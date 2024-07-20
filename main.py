@@ -65,19 +65,16 @@ class CopsAndRobbersGame:
                 if beta <= alpha:
                     break
         else:
-            next_states = []
-            for next_pos in self.graph.neighbors(state.robber_position):
-                # Avoid vertices adjacent to the cop.
-                if self.graph.has_edge(state.cop_position, next_pos):
-                    continue
-                next_states.append(
-                    GameState(
-                        state.cop_position,
-                        next_pos,
-                        state.damaged_vertices.union({state.robber_position}),
-                        is_cop_turn=True,
-                    )
+            next_states = [
+                GameState(
+                    state.cop_position,
+                    next_pos,
+                    state.damaged_vertices.union({state.robber_position}),
+                    is_cop_turn=True,
                 )
+                for next_pos in self.graph.neighbors(state.robber_position)
+                if not self.graph.has_edge(state.cop_position, next_pos)
+            ]
             best_result = 0
             if next_states == []:
                 best_result = len(state.damaged_vertices.union({state.robber_position}))
