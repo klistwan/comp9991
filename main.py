@@ -36,7 +36,7 @@ class CopsAndRobbersGame:
                 )
                 for pos in self.graph.neighbors(state.cop_position)
             ]
-            results = [self.minimax(state, visited) for state in next_states if state not in visited]
+            results = [self.minimax(state, visited) for state in next_states]
             if results == []:
                 return len(state.damaged_vertices)
             best_result = min(results)
