@@ -16,7 +16,7 @@ class CopsAndRobbersGame:
         self.upper_bound = graph.number_of_nodes() - (graph.degree(cop_position) - 1)
         self.has_cycle = len([cycle for cycle in nx.cycle_basis(graph) if len(cycle) > 1]) > 0
 
-    def minimax(self, state: GameState, visited: set[GameState]) -> int:
+    def minimax(self, state: GameState, visited: set[GameState], alpha: int = 0, beta: int = float("inf")) -> int:
         if state.cop_position == state.robber_position:
             return len(state.damaged_vertices)
         if len(state.damaged_vertices) == self.upper_bound:
@@ -55,8 +55,15 @@ class CopsAndRobbersGame:
                     )
                     for pos in self.graph.neighbors(state.cop_position)
                 ]
-            results = [self.minimax(state, visited) for state in next_states]
-            best_result = min(results) if results else len(state.damaged_vertices)
+            best_result = float("inf")
+            if next_states == []:
+                best_result = len(state.damaged_vertices)
+            for next_state in next_states:
+                result = self.minimax(next_state, visited, alpha, beta)
+                best_result = min(best_result, result)
+                beta = min(beta, result)
+                if beta <= alpha:
+                    break
         else:
             next_states = []
             for next_pos in self.graph.neighbors(state.robber_position):
@@ -71,8 +78,15 @@ class CopsAndRobbersGame:
                         is_cop_turn=True,
                     )
                 )
-            results = [self.minimax(state, visited) for state in next_states]
-            best_result = max(results) if results else len(state.damaged_vertices.union({state.robber_position}))
+            best_result = 0
+            if next_states == []:
+                best_result = len(state.damaged_vertices.union({state.robber_position}))
+            for next_state in next_states:
+                result = self.minimax(next_state, visited, alpha, beta)
+                best_result = max(best_result, result)
+                alpha = max(alpha, result)
+                if beta <= alpha:
+                    break
 
         visited.remove(state)
         return best_result
