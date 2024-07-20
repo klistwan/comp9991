@@ -59,6 +59,10 @@ test_cases = [
     ([(0, 3), (0, 4), (0, 5), (1, 3), (1, 4), (1, 5), (2, 3), (2, 4), (2, 5)], 0, 5, 0),
     # Complete bipartite graph K_{3,3} where cop and robber start on the same partition.
     ([(0, 3), (0, 4), (0, 5), (1, 3), (1, 4), (1, 5), (2, 3), (2, 4), (2, 5)], 0, 1, 1),
+    # Wheel graph W_6 where cop starts at 0 (central vertex) and robber starts at 3
+    ([(0, 1), (0, 2), (0, 3), (0, 4), (0, 5), (1, 2), (2, 3), (3, 4), (4, 5), (5, 1)], 0, 3, 0),
+    # A 3-barbell graph where cop and robber start distance 3 away from each other.
+    ([(0, 1), (0, 2), (1, 2), (3, 4), (3, 5), (4, 5), (2, 3)], 0, 5, 2),
 ]
 
 
