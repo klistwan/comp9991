@@ -43,6 +43,10 @@ test_cases = [
     ([(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 0)], 0, 2, 2),
     # 6-cycle where cop and robber start distance 3 away.
     ([(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 0)], 0, 3, 2),
+    # 7-cycle where cop and robber start distance 2 away.
+    ([(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 0)], 0, 2, 3),
+    # 7-cycle where cop and robber start distance 3 away.
+    ([(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 0)], 0, 3, 3),
     # Star graph S_5 where the cop starts on the central vertex.
     ([(0, 1), (0, 2), (0, 3), (0, 4)], 0, 1, 0),
     # Star graph S_5 where neither player starts on the central vertex.
