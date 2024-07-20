@@ -55,6 +55,10 @@ test_cases = [
     ([(0, 1), (0, 2), (1, 3), (1, 4), (2, 5), (2, 6)], 3, 4, 1),
     # Balanced binary tree with 7 nodes (cop at leaf, robber at root).
     ([(0, 1), (0, 2), (1, 3), (1, 4), (2, 5), (2, 6)], 3, 0, 3),
+    # Complete bipartite graph K_{3,3} where cop and robber start on different partitions.
+    ([(0, 3), (0, 4), (0, 5), (1, 3), (1, 4), (1, 5), (2, 3), (2, 4), (2, 5)], 0, 5, 0),
+    # Complete bipartite graph K_{3,3} where cop and robber start on the same partition.
+    ([(0, 3), (0, 4), (0, 5), (1, 3), (1, 4), (1, 5), (2, 3), (2, 4), (2, 5)], 0, 1, 1),
 ]
 
 
