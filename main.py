@@ -65,11 +65,12 @@ class CopsAndRobbersGame:
                 if beta <= alpha:
                     break
         else:
+            new_damaged_vertices = state.damaged_vertices.union({state.robber_position})
             next_states = [
                 GameState(
                     state.cop_position,
                     next_pos,
-                    state.damaged_vertices.union({state.robber_position}),
+                    new_damaged_vertices,
                     is_cop_turn=True,
                 )
                 for next_pos in self.graph.neighbors(state.robber_position)
@@ -77,7 +78,7 @@ class CopsAndRobbersGame:
             ]
             best_result = 0
             if next_states == []:
-                best_result = len(state.damaged_vertices.union({state.robber_position}))
+                best_result = len(new_damaged_vertices)
             for next_state in next_states:
                 result = self.minimax(next_state, visited, alpha, beta)
                 best_result = max(best_result, result)
