@@ -73,6 +73,8 @@ test_cases = [
     ([(0, 1), (0, 2), (0, 3), (1, 2), (1, 3), (2, 3), (3, 4), (4, 5), (5, 6)], 3, 5, 2),
     # 3x3 Grid graph where cop starts in the centre and robber starts on a corner.
     ([(0, 1), (1, 2), (0, 3), (1, 4), (2, 5), (3, 4), (4, 5), (3, 6), (4, 7), (5, 8), (6, 7), (7, 8)], 4, 8, 1),
+    # Möbius ladder M8 where cop starts at vertex 0 and robber starts at vertex 4.
+    ([(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 0), (0, 4), (1, 5), (2, 6), (3, 7)], 0, 3, 4),
     # 8-cycle where cop and robber start distance 2 away.
     ([(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 0)], 0, 2, 3),
 ]
