@@ -74,8 +74,6 @@ class CopsAndRobbersGame:
                     for pos in self.graph.neighbors(state.cop_position)
                 ]
             best_result = float("inf")
-            if next_states == []:
-                best_result = len(state.damaged_vertices)
             for next_state in next_states:
                 result = self.minimax(next_state, visited, alpha, beta)
                 best_result = min(best_result, result)
@@ -94,9 +92,7 @@ class CopsAndRobbersGame:
                 for next_pos in self.graph.neighbors(state.robber_position)
                 if not self.graph.has_edge(state.cop_position, next_pos)
             ]
-            best_result = 0
-            if next_states == []:
-                best_result = len(new_damaged_vertices)
+            best_result = len(new_damaged_vertices)
             for next_state in next_states:
                 result = self.minimax(next_state, visited, alpha, beta)
                 best_result = max(best_result, result)
