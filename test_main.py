@@ -134,3 +134,13 @@ def test_find_damage_number_for_path():
     result = find_damage_number(graph)
 
     assert result == 2
+
+def test_find_damage_number_for_cycle():
+    graph = nx.Graph()
+    graph.add_edges_from([(0, 1), (1, 2), (2, 3), (3, 0)])
+    for node in graph.nodes:
+        graph.add_edge(node, node)
+
+    result = find_damage_number(graph)
+
+    assert result == 1
