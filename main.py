@@ -39,9 +39,7 @@ class CopsAndRobbersGame:
             return True
         if len(state.damaged_vertices) == self.upper_bound:
             return True
-        if state in visited:
-            return True
-        return False
+        return state in visited
 
     def minimax(self, state: GameState, visited: set[GameState], alpha: int = 0, beta: int = float("inf")) -> int:
         if self.is_game_over(state, visited):
