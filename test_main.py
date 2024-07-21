@@ -112,3 +112,14 @@ def test_find_optimal_starting_vertices_for_path():
     result = find_optimal_starting_vertices(graph)
 
     assert result == [2, 3]
+
+
+def test_find_optimal_starting_vertices_for_cycle():
+    graph = nx.Graph()
+    graph.add_edges_from([(0, 1), (1, 2), (2, 3), (3, 4), (4, 0)])
+    for node in graph.nodes:
+        graph.add_edge(node, node)
+
+    result = find_optimal_starting_vertices(graph)
+
+    assert result == [0, 1, 2, 3, 4]
