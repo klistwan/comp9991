@@ -1,7 +1,7 @@
 import networkx as nx
 import pytest
 
-from main import CopsAndRobbersGame, GameState, find_optimal_starting_vertices
+from main import CopsAndRobbersGame, GameState, find_optimal_starting_vertices, find_damage_number
 
 # Test cases defined as tuples of graph edges, cop position, robber position, and expected damage number.
 test_cases = [
@@ -123,3 +123,14 @@ def test_find_optimal_starting_vertices_for_cycle():
     result = find_optimal_starting_vertices(graph)
 
     assert result == [0, 1, 2, 3, 4]
+
+
+def test_find_damage_number_for_path():
+    graph = nx.Graph()
+    graph.add_edges_from([(0, 1), (1, 2), (2, 3), (3, 4), (4, 0)])
+    for node in graph.nodes:
+        graph.add_edge(node, node)
+
+    result = find_damage_number(graph)
+
+    assert result == 2
