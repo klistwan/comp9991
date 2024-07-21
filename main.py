@@ -34,12 +34,17 @@ class CopsAndRobbersGame:
         self.upper_bound = graph.number_of_nodes() - (graph.degree(cop_position) - 1)
         self.has_cycle = len([cycle for cycle in nx.cycle_basis(graph) if len(cycle) > 1]) > 0
 
-    def minimax(self, state: GameState, visited: set[GameState], alpha: int = 0, beta: int = float("inf")) -> int:
+    def is_game_over(self, state: GameState, visited: set[GameState]) -> bool:
         if state.cop_position == state.robber_position:
-            return len(state.damaged_vertices)
+            return True
         if len(state.damaged_vertices) == self.upper_bound:
-            return self.upper_bound
+            return True
         if state in visited:
+            return True
+        return False
+
+    def minimax(self, state: GameState, visited: set[GameState], alpha: int = 0, beta: int = float("inf")) -> int:
+        if self.is_game_over(state, visited):
             return len(state.damaged_vertices)
         visited.add(state)
 
