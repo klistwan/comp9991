@@ -6,8 +6,26 @@ import networkx as nx
 class GameState(NamedTuple):
     cop_position: int
     robber_position: int
-    damaged_vertices: set[int]
-    is_cop_turn: bool
+    damaged_vertices: set[int] = frozenset()
+    is_cop_turn: bool = True
+
+
+def find_optimal_starting_vertices(graph: nx.Graph) -> list[int]:
+    least_damage = float("inf")
+    optimal_vertices = []
+    for cop_position in graph.nodes:
+        results = []
+        for robber_position in graph.nodes:
+            game = CopsAndRobbersGame(graph, cop_position)
+            initial_state = GameState(cop_position, robber_position)
+            result = game.minimax(initial_state, set())
+            results.append(result)
+        if max(results) == least_damage:
+            optimal_vertices.append(cop_position)
+        elif max(results) < least_damage:
+            least_damage = max(results)
+            optimal_vertices = [cop_position]
+    return optimal_vertices
 
 
 class CopsAndRobbersGame:
