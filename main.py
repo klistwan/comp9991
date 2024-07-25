@@ -1,5 +1,5 @@
 from typing import NamedTuple
-
+import argparse
 import networkx as nx
 
 
@@ -118,3 +118,33 @@ class CopsAndRobbersGame:
 
         visited.remove(state)
         return best_result
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Simulate the Damage Number variant of the Cops and Robbers game on a graph."
+    )
+    parser.add_argument("--edges", type=str, required=True, help="List of edges")
+    parser.add_argument("--cop", type=int, required=True, help="Position of the cop")
+    parser.add_argument("--robber", type=int, required=True, help="Position of the robber")
+
+    args = parser.parse_args()
+
+    edges = eval(args.edges)
+    cop_position = args.cop
+    robber_position = args.robber
+
+    graph = nx.Graph()
+    graph.add_edges_from(edges)
+    for node in graph.nodes:
+        graph.add_edge(node, node)
+
+    initial_state = GameState(cop_position=cop_position, robber_position=robber_position)
+    visited = set()
+    game = CopsAndRobbersGame(graph, cop_position)
+    result = game.minimax(initial_state, visited)
+    print(f"The robber is able to damage {result} vertices")
+
+
+if __name__ == "__main__":
+    main()
