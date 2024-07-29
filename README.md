@@ -26,13 +26,19 @@ To run the program, run `main.py` with the following arguments:
 Arguments:
 
 * `--edges`: A list of edges for the graph in the form of a string. Example: "[(0, 1), (0, 2), (1, 2)]""
-* `--cop`: The initial position of the cop as an integer.
-* `--robber`: The initial position of the robber as an integer.
+* `--cop`: (Optional) The initial position of the cop as an integer.
+* `--robber`: (Optional) The initial position of the robber as an integer.
 
 For example, to determine the number of vertices the robber can damage on `P_6` when the cop starts on a leaf vertex and the robber starts distance two away:
 
 ```bash
 python main.py --edges="[(0, 1), (1, 2), (2, 3), (3, 4), (4, 5)]" --cop=0 --robber=2
+```
+
+To determine the damage number of `P_6`, omit the cop and robber arguments:
+
+```bash
+python main.py --edges="[(0, 1), (1, 2), (2, 3), (3, 4), (4, 5)]"
 ```
 
 ## License
