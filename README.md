@@ -32,7 +32,7 @@ Arguments:
 For example, to determine the number of vertices the robber can damage on `P_6` when the cop starts on a leaf vertex and the robber starts distance two away:
 
 ```bash
-python main.py --edges=[(0, 1), (1, 2), (2, 3), (3, 4), (4, 5)] --cop=0 --robber=2
+python main.py --edges="[(0, 1), (1, 2), (2, 3), (3, 4), (4, 5)]" --cop=0 --robber=2
 ```
 
 ## License

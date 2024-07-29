@@ -28,11 +28,14 @@ def find_optimal_starting_vertices(graph: nx.Graph) -> list[int]:
     return optimal_vertices
 
 
-def find_damage_number(graph: nx.Graph) -> int:
+def find_damage_number(graph: nx.Graph, cop_position=None, robber_position=None) -> int:
     damage_number = graph.number_of_nodes() - 1
-    for cop_position in graph.nodes:
+    cop_positions = [cop_position] if cop_position is not None else graph.nodes
+    robber_positions = [robber_position] if robber_position is not None else graph.nodes
+
+    for cop_position in cop_positions:
         results = []
-        for robber_position in graph.nodes:
+        for robber_position in robber_positions:
             game = CopsAndRobbersGame(graph, cop_position)
             initial_state = GameState(cop_position, robber_position)
             result = game.minimax(initial_state, set())
