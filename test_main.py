@@ -83,6 +83,29 @@ test_cases = [
     ([(0, 1), (1, 2), (2, 3), (3, 0), (4, 5), (5, 6), (6, 7), (7, 4), (0, 4), (1, 5), (2, 6), (3, 7)], 0, 2, 2),
     # 8-cycle where cop and robber start distance 2 away.
     ([(0, 1), (1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 0)], 0, 2, 3),
+    # Graph where the cop starting on the centre allows the robber to damage more vertices than the damage number.
+    (
+        [
+            (2, 1),
+            (1, 10),
+            (10, 6),
+            (6, 8),
+            (8, 7),
+            (7, 3),
+            (3, 10),
+            (10, 9),
+            (9, 4),
+            (4, 3),
+            (4, 7),
+            (4, 5),
+            (5, 8),
+            (5, 6),
+            (5, 9),
+        ],
+        10,
+        5,
+        3,
+    ),
 ]
 
 
